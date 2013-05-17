@@ -1,14 +1,14 @@
 Greyhound.com
 ==============
 
-***Type*** : *search form *
----------------------------
----------------------------
+Type : _search form_
+
+
 
 Step1 :  Find page with search form 
 -----------------------------------
 
-  	URL: home_page_url
+	url: home_page_url
 	Context: none
 
 	Goal: navigate to page with search form
@@ -20,28 +20,31 @@ Step1 :  Find page with search form
 
 1.  Get to home page
     1. Note header/status/content of page/resources and create a naviagationLog
-2.  Look for search form on page. Try :
-    1. Look for <input tabindex = x> (trickshot)
-    2. Get all tables
-		1.  Check relevance of parent <div>
-		2.  Check relevance of <inputs> found amongst children
-		3.  Choose table with highest utility, coming back to this node if no data found
-		4.  (last resort) Get all <input> fields
-			1. Check relevance of attributes
-			2. Check parent relevance
-			3. If needed, recurse back up to parent tree until <hx> tag
-			4. Choose the best fields and try to find a common parent.
-3.  If no form, table or other relevant element on page,
-	*1.3.1 Look for relevant links to other pages
-	*1.3.2 Visit
-	*1.3.3 Goto  1.2
-4.  Find a way to identify the input fields
-	*1.4.1 id
-	*1.4.2 name
-	*1.4.3 fist element with class=name under parent element found above.
 
-5.  Validate the identification has no duplicates in the page
-	*assert len(document.findAll(selector)) == 1*
+2.  Look for search form on page. Try :
+	1. Look for code `<input tabindex = x>` (trickshot)
+	2. Get all tables
+		1. Check relevance of parent `<div>`
+		2. Check relevance of `<inputs>` found amongst children
+		3. Choose table with highest utility, coming back to this node if no data found
+	3. (last resort) Get all `<input>` fields
+		1. Check relevance of attributes
+		2. Check parent relevance
+		3. If needed, recurse back up to parent tree until `<hx>` tag
+		4. Choose the best fields and try to find a common parent.
+
+
+3. If no form, table or other relevant element on page,
+	1. Look for relevant links to other pages
+	2. Visit
+	3. Goto  1.2
+4. Find a way to identify the input fields
+	* id
+	* name
+	* fist element with class=name under parent element found above.
+
+5. Validate the identification has no duplicates in the page
+    1.  Assert len(document.findAll(selector)) == 1
 
 Step 2: Inspect input fields for {input space}
 ----------------------------------------------
@@ -74,11 +77,11 @@ Step 2: Inspect input fields for {input space}
 
 		travellerType 		: boolean   #Age,social status,etc.
 		travellerTypeFormat : {
-								<select>, 
+								`<select>`, 
 								seperate dropdown for # of passenger in each class,
 								}, default = dropdown
 		travelClass			: boolean
-		travelClassFormat 	: {<select>, }, default = dropdown
+		travelClassFormat 	: {`<select>`, }, default = dropdown
 
 		isDestFctOfOrigin	: boolean  # Are destination options = f(origin)
 
@@ -88,13 +91,13 @@ Step 2: Inspect input fields for {input space}
 
 	"""
 1. Traverse list of input fields found in table (or pseudo-table) of step1
-	*2.1.1 Observe tag name
-		<select> often has <option>'s under it
-	*2.1.2 <inputs> may call scripts that populate dropdown <div>
-		Access those scripts
-	*2.1.3 look for quick wins:
-		*type = radio is usually a oneway/Return field
-		*<input tabindex= x> (trickshot) is a clear win
+	1. Observe tag name
+		*  `<select>` often has `<option>`'s under it
+	2. `<inputs>` may call scripts that populate dropdown `<div>`
+		*  Access those scripts
+	3. look for quick wins:
+		*  type = radio is usually a oneway/Return field
+		*  `<input tabindex= x>` (trickshot) is a clear win
 		* (more to come...)
 
 Step 3 :Fill input fields of the search tool  and submit
@@ -135,7 +138,7 @@ Step 3 :Fill input fields of the search tool  and submit
 
 	"""
 
-1. Fill and submit form with all permutations, and return navigation log
+3.1 Fill and submit form with all permutations, and return navigation log
 	
 Step 4 :Choose an origin-destination trip to take that day
 ----------------------------------------------------------
@@ -158,11 +161,12 @@ Step 4 :Choose an origin-destination trip to take that day
 
 	"""
 1. If given a list of selectors pointing to choose a trip alternatives buttons,
-	*click first list selector element, submit and update navigationLog
-	*repeat for all selector in the list
+	*  click first list selector element, submit and update navigationLog
+	*  repeat for all selector in the list
 
-2. Otherwise, find list of radio buttons under a common parent with relevant name
-	*then go to 4.1
+2. Otherwise, 
+    *  Find list of radio buttons under a common parent with relevant name
+	*  then go to 4.1
 
 Step 5 :Choose a return trip to take 
 ------------------------------------
