@@ -9,8 +9,8 @@ Step1 :  Find page with search form
 -----------------------------------
 
 1.  wow
-1.  1.  okaye
-1.  1.  2  douby
+  1.  okaye
+    2.  douby
 
 
   	URL: home_page_url
