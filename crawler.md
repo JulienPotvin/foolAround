@@ -8,7 +8,7 @@ Greyhound.com
 Step1 :  Find page with search form 
 -----------------------------------
 
-  URL: home_page_url
+  	URL: home_page_url
 	Context: none
 
 	Goal: navigate to page with search form
