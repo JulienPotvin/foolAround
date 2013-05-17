@@ -8,19 +8,6 @@ Greyhound.com
 Step1 :  Find page with search form 
 -----------------------------------
 
-1.  wow
-    1.  Are
-    2.  we
-		1.  in?
-    3.  and
-		1.  in?
-    4.  and
-
-2.  out
-3.  gunit
-4.  pow
-
-
   	URL: home_page_url
 	Context: none
 
