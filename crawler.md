@@ -31,11 +31,11 @@ Step1 :  Find page with search form
 			2. Check parent relevance
 			3. If needed, recurse back up to parent tree until <hx> tag
 			4. Choose the best fields and try to find a common parent.
-3.  If no form, table or other relevant element on page,
+3.If no form, table or other relevant element on page,
 	*1.3.1 Look for relevant links to other pages
 	*1.3.2 Visit
 	*1.3.3 Goto  1.2
-4. Find a way to identify the input fields
+4.Find a way to identify the input fields
 	*1.4.1 id
 	*1.4.2 name
 	*1.4.3 fist element with class=name under parent element found above.
