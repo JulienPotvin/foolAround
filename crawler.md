@@ -27,13 +27,13 @@ Step1 :  Find page with search form
 		2.  Check relevance of <inputs> found amongst children
 		3.  Choose table with highest utility, coming back to this node if no data found
 		4.  (last resort) Get all <input> fields
-				1. Check relevance of attributes
-				2. Check parent relevance
-				3. If needed, recurse back up to parent tree until <hx> tag
-				4. Choose the best fields and try to find a common parent.
+			1. Check relevance of attributes
+			2. Check parent relevance
+			3. If needed, recurse back up to parent tree until <hx> tag
+			4. Choose the best fields and try to find a common parent.
 
 
-3. If no form, table or other relevant element on page,
+3.  If no form, table or other relevant element on page,
 	*1.3.1 Look for relevant links to other pages
 	*1.3.2 Visit
 	*1.3.3 Goto  1.2
