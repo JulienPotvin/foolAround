@@ -26,6 +26,7 @@ Step1 :  Find page with search form
 		1.  Check relevance of parent <div>
 		2.  Check relevance of <inputs> found amongst children
 		3.  Choose table with highest utility, coming back to this node if no data found
+
 3.  (last resort) Get all <input> fields
     1. Check relevance of attributes
     2. Check parent relevance
