@@ -18,9 +18,9 @@ Step1 :  Find page with search form
 			selector : selector for the search form parent element.
 
 
-1.1 Get to home page
+1 Get to home page
 	*1.1.1 Note header/status/content of page/resources and create a naviagationLog
-1.2 Look for search form on page
+2 Look for search form on page
 *Try :
 	*1.2.1 Look for <input tabindex = x> (trickshot)
 	*1.2.2 Get all tables
@@ -34,16 +34,16 @@ Step1 :  Find page with search form
 		*1.2.3.4 Choose the best fields and try to find a common parent.
 
 
-1.3 If no form, table or other relevant element on page,
+3 If no form, table or other relevant element on page,
 	*1.3.1 Look for relevant links to other pages
 	*1.3.2 Visit
 	*1.3.3 Goto  1.2
-1.4 Find a way to identify the input fields
+4 Find a way to identify the input fields
 	*1.4.1 id
 	*1.4.2 name
 	*1.4.3 fist element with class=name under parent element found above.
 
-1.5 Validate the identification has no duplicates in the page
+5 Validate the identification has no duplicates in the page
 	*assert len(document.findAll(selector)) == 1*
 
 Step 2: Inspect input fields for {input space}
