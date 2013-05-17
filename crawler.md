@@ -21,8 +21,8 @@ Step1 :  Find page with search form
 1. Get to home page
  1. Note header/status/content of page/resources and create a naviagationLog
 2. Look for search form on page. Try :
-  1. Look for <input tabindex = x> (trickshot)
-  2. Get all tables
+2.  1. Look for <input tabindex = x> (trickshot)
+2.  2. Get all tables
    * Check relevance of parent <div>
    * Check relevance of <inputs> found amongst children
    * Choose table with highest utility, coming back to this node if no data found
