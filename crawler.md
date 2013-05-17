@@ -20,18 +20,17 @@ Step1 :  Find page with search form
 
 1. Get to home page
  1. Note header/status/content of page/resources and create a naviagationLog
-2. Look for search form on page
-Try :
+2. Look for search form on page. Try :
   1. Look for <input tabindex = x> (trickshot)
   2. Get all tables
-   2.1. Check relevance of parent <div>
-		*1.2.2.2 Check relevance of <inputs> found amongst children
-		*1.2.2.3 Choose table with highest utility, coming back to this node if no data found
-	*1.2.3 (last resort) Get all <input> fields
-		*1.2.3.1 Check relevance of attributes
-		*1.2.3.2 Check parent relevance
-		*1.2.3.3 If needed, recurse back up to parent tree until <hx> tag
-		*1.2.3.4 Choose the best fields and try to find a common parent.
+   1. Check relevance of parent <div>
+   2. Check relevance of <inputs> found amongst children
+   3. Choose table with highest utility, coming back to this node if no data found
+  3. (last resort) Get all <input> fields
+   1. Check relevance of attributes
+   2. Check parent relevance
+   3. If needed, recurse back up to parent tree until <hx> tag
+   4. Choose the best fields and try to find a common parent.
 
 
 3. If no form, table or other relevant element on page,
