@@ -15,6 +15,7 @@ Step1 :  Find page with search form
     3.  and
 		1.  in?
     4.  and
+
 2.  out
 3.  gunit
 4.  pow
@@ -30,19 +31,19 @@ Step1 :  Find page with search form
 			selector : selector for the search form parent element.
 
 
-1. Get to home page
- 1. Note header/status/content of page/resources and create a naviagationLog
-2. Look for search form on page. Try :
-2.  1. Look for <input tabindex = x> (trickshot)
-2.  2. Get all tables
-   * Check relevance of parent <div>
-   * Check relevance of <inputs> found amongst children
-   * Choose table with highest utility, coming back to this node if no data found
-  3. (last resort) Get all <input> fields
-   1. Check relevance of attributes
-   2. Check parent relevance
-   3. If needed, recurse back up to parent tree until <hx> tag
-   4. Choose the best fields and try to find a common parent.
+1.  Get to home page
+    1. Note header/status/content of page/resources and create a naviagationLog
+2.  Look for search form on page. Try :
+    1. Look for <input tabindex = x> (trickshot)
+    2. Get all tables
+		1.  Check relevance of parent <div>
+		2.  Check relevance of <inputs> found amongst children
+		3.  Choose table with highest utility, coming back to this node if no data found
+3.  (last resort) Get all <input> fields
+    1. Check relevance of attributes
+    2. Check parent relevance
+    3. If needed, recurse back up to parent tree until <hx> tag
+    4. Choose the best fields and try to find a common parent.
 
 
 3. If no form, table or other relevant element on page,
