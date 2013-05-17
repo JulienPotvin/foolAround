@@ -26,7 +26,8 @@ Step1 :  Find page with search form
 	2. Get all tables
 		1. Check relevance of parent `<div>`
 		2. Check relevance of `<inputs>` found amongst children
-		3. Choose table with highest utility, coming back to this node if no data found
+		3. Check relevance of html comments above tables
+		4. Choose table with highest utility ( come back to this step is fails later)
 	3. (last resort) Get all `<input>` fields
 		1. Check relevance of attributes
 		2. Check parent relevance
@@ -57,7 +58,11 @@ Step 2: Inspect input fields for {input space}
 		context 			: context required to get there
 		tableSelector		: selector of table parent element 
 
-
+        table_format        :  {
+                                variables-values, 
+                                variables-values-variables-values,
+                                variable-value-variable-value
+                                }#so far
 		onewayReturn 		: boolean, field for one way vs. return
 		onewayReturnFormat	: {radio button , dropdown menu, }
 		origin 				: boolean, default = True
@@ -90,7 +95,24 @@ Step 2: Inspect input fields for {input space}
 			 (id, name, etc.)
 
 	"""
-1. Traverse list of input fields found in table (or pseudo-table) of step1
+1.  Figure out the general layout of the table:
+    *  Variables-values
+        *  |---origin--| Destination|---Date---|---Class---|
+        *  |---MTL----|---Toronto----|05-07-13|Economy|
+    * Variables-values alternate
+        *  |---origin--| Destination|
+        *  |---MTL----|---Toronto----|
+        *  |---Date---|------Class-----|
+        *  |05-07-13|---Economy--|
+    * Variable-value alternate
+        *  |---origin------|
+        *  |---MTL---------|
+        *  |Destination|
+        *  |--Toronto ---|
+        *  |---Date-------|
+        *  |05-07-13-----|
+
+2. Traverse list of input fields found in table (or pseudo-table) of step1
 	1. Observe tag name
 		*  `<select>` often has `<option>`'s under it
 	2. `<inputs>` may call scripts that populate dropdown `<div>`
