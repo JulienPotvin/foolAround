@@ -90,7 +90,7 @@ Step 2: Inspect input fields for {input space}
 			 (id, name, etc.)
 
 	"""
-2.1 Traverse list of input fields found in table (or pseudo-table) of step1
+1. Traverse list of input fields found in table (or pseudo-table) of step1
 	*2.1.1 Observe tag name
 		<select> often has <option>'s under it
 	*2.1.2 <inputs> may call scripts that populate dropdown <div>
@@ -138,7 +138,7 @@ Step 3 :Fill input fields of the search tool  and submit
 
 	"""
 
-3.1 Fill and submit form with all permutations, and return navigation log
+1. Fill and submit form with all permutations, and return navigation log
 	
 Step 4 :Choose an origin-destination trip to take that day
 ----------------------------------------------------------
@@ -160,11 +160,11 @@ Step 4 :Choose an origin-destination trip to take that day
 
 
 	"""
-4.1 If given a list of selectors pointing to choose a trip alternatives buttons,
+1. If given a list of selectors pointing to choose a trip alternatives buttons,
 	*click first list selector element, submit and update navigationLog
 	*repeat for all selector in the list
 
-4.2 Otherwise, find list of radio buttons under a common parent with relevant name
+2. Otherwise, find list of radio buttons under a common parent with relevant name
 	*then go to 4.1
 
 Step 5 :Choose a return trip to take 
