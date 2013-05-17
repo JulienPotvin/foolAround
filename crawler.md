@@ -23,9 +23,9 @@ Step1 :  Find page with search form
 2. Look for search form on page. Try :
   1. Look for <input tabindex = x> (trickshot)
   2. Get all tables
-   1. Check relevance of parent <div>
-   2. Check relevance of <inputs> found amongst children
-   3. Choose table with highest utility, coming back to this node if no data found
+   * Check relevance of parent <div>
+   * Check relevance of <inputs> found amongst children
+   * Choose table with highest utility, coming back to this node if no data found
   3. (last resort) Get all <input> fields
    1. Check relevance of attributes
    2. Check parent relevance
