@@ -27,7 +27,7 @@ Step 1 :Fill input fields of the search tool and submit (TODO -- Compart in clea
 	Outputs:
 			(an absence of ID means there is no such field or it should be left to default)
 
-			navigationLog:			list of (previous_url,new_url,request) to get to form
+			navigation_log:			list of (previous_url,new_url,request) to get to form
 
 			onewayReturn_list:		list of all oneway/return alternatives (2 here)
 			onewayReturnID: 		css selector for the oneway/twoway field in the form
@@ -48,6 +48,19 @@ Step 1 :Fill input fields of the search tool and submit (TODO -- Compart in clea
 			travellerTypeID:		css selector for the travellerType field in the form
 			traveller_class_list:		list of all travel class offered by the cie
 			travellerClassID:		css selector for the travel calss field in the form
+
+
+Programmer assisted workflow:
+
+*  Input the home_url
+*  Prompt user to navigate to the page of the search from, recording context throughout (default: simple url)
+*  Append list of context to navigation_log
+*  Prompt user for search field ID's
+*  Append to respective output variables(i.e. xxxID)
+*  Prompt user for search field input space(i.e. what set of values could inputed here)
+*  Append to respective output variable lists(xxxxx_list)
+
+Automation version: (_Hints_)
 
 *  Navigation log:
 	1.  Get to home page
@@ -103,7 +116,7 @@ Step 1 :Fill input fields of the search tool and submit (TODO -- Compart in clea
 	Inputs:
 			(an absence of ID means there is no such field or it should be left to default)
 
-			navigationLog		:	list of (previous_url,new_url,request) to get to form
+			navigation_log		:	list of (previous_url,new_url,request) to get to form
 
 			onewayReturn_list:		list of all oneway/return alternatives (2 here)
 			onewayReturnID: 		css selector for the oneway/twoway field in the form
@@ -194,7 +207,7 @@ Step 2 [intermediate] :Choose a trip alternative
 	Goal  : Create branches for different departure/arrival times,  alternatives.
 
 	Inputs : 
-			navigationLog : 	List of (previous_url,new_url,request) to get to this page
+			navigation_log : 	List of (previous_url,new_url,request) to get to this page
 			is_timetable:		False if intermediate step (non-terminal timetable)
 			selection_pattern:	States the pattern used to fill trip_selectors
 			options_selectors:	List of css selectors pointing to trip elements to be chosen by user
@@ -256,7 +269,7 @@ use on target pafe
 	Goal  : Generates the parser's attributes according to a specific pattern
 
 	Input: 
-			navigationLog : 	List of contexts (previous_url,new_url,request) to get to this page
+			navigation_log : 	List of contexts (previous_url,new_url,request) to get to this page
 			parsing_pattern:	States the pattern (i.e. function) to used to aquire the data
 			
 
@@ -264,7 +277,7 @@ use on target pafe
 			navigationLog : same naviagation log with url and request needed to get here.
 			table_selectors : 	List of css selector(s) of the parent element containing the timetable(s)
 			ext_data_selectors:	List of css selector(s) to external resource 
-						(i.e. not all info is wihtin the table ; action depends on parsing_pattern)
+						(i.e. not all info is wihtin the table ; refer to mask for semantic)
 			variable_masks:		List of dic used as a mask to interpret information obtained in 
 						each table of table_selectors (i.e. headerValue : 
 						busbudInterpretation/format)
@@ -291,10 +304,10 @@ use on target pafe
 	Goal  : Extract data from the schedule timetable according given parsing_patterns
 
 	Input: 
-			navigationLog : 	List of (previous_url,new_url,request) to get to this page
+			navigation_log : 	List of (previous_url,new_url,request) to get to this page
 			table_selectors : 	List of css selector(s) of the parent element containing the timetable(s)
 			ext_data_selectors:	List of css selector(s) to external resource 
-				(i.e. not all info is wihtin the table ; action depends on parsing_pattern)
+				(i.e. not all info is within the table ; action depends on parsing_pattern)
 			variable_masks:		List of dic used as a mask to interpret information obtained in 
 				each table of table_selectors (i.e. headerValue : busbudInterpretation/format)
 				(eg. {
