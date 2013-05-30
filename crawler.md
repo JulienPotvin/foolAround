@@ -13,7 +13,7 @@ Note3: 'Value' refers to the value a variable can take in a specific trip. eg. M
 
 NLP projects: Apache Stanbol(Java), nltk (python - _not sure_ )
 
-Step 1 :Fill input fields of the search tool and submit (TODO -- Compart in clear patterns)
+Step 1 :Fill input fields of the search tool and submit
 --------------------------------------------------------
 
 **Part 1 : Hints to find form inputs**
