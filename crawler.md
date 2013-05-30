@@ -250,6 +250,7 @@ use on target pafe
 	
 **Part1 : Hints to generate parser settings (based on pattern)**
 	
+	"""
 	Method signature:  def init()
 	
 	Goal  : Generates the parser's attributes according to a specific pattern
@@ -280,209 +281,11 @@ use on target pafe
 				to the price of the trip, and the second entry points to a text fields containing both 
 				the class of the trip and its origin)
 			pasring_pattern :	states the pattern used to generate the above outputs
-		
-
-
-*  Pattern 1 : Classic table w/ horizontal headers 
-	*  `<table id= table_id>`
-		*  `<thead> `
-			*  `<tr>`
-				*  `<th>Fare</th>`#Variable1
-				*  `<th>Service</th>`#Variable2
-				*  `...`
-			*  `</tr>`
-		*  `</thead>`
-		*  `<tbody>`
-			*  `<tr> </tr>` # Trip 1
-			*  `<tr> </tr>` # Trip 2
-			*  `...`
-			*  `<tr>` #Trip n
-				*  `<td>50$<td>`#value1
-				*  `<td>GX40<td>`#value2
-				*  ...
-			*  `</tr>`
-			*  `...`
-			*  `<tr></tr>`
-		*  `</tbody>`
-	*  `</table>`
-	*  navigation log : 
-		*  _idem as input_
-	*  table_selectors: 
-		1.  Pick tables with `<thead>` and/or `<th>` in it
-		2.  Append a css selector unique to each table OR unique to this group of table
-	*  parsing_patterns :
-		*  _idem as input_
-	*  variable_masks : (dic)
-		*  dic keys are found in `<th>`'s
-		*  dic values are reverse looked up in a lexical domain re table  
-			*  eg. 'Fare' is interpreted as part of 'price' lexical field
-	*  ext_data_selector :
-		*  if 'price' is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
-			   `<input>` or `<select>` (i.e. a search form)
-	*  ext_data_masks : 
-		*  _(None)_
-*  Pattern 2 : 'Headerless' horizontal table (aka the Communist)
-	*  No `<thead>` or `<th>`
-	*  _(Similar to Pattern 1)_ 
-	*  navigation log : 
-		*  _idem as input_
-	*  table_selectors: 
-		*  Get all tables
-		*  _(alternate)_ Discard invalid tables right off the bat (via NLP)
-			1. Check relevance of table
-			2. Check relevance of parent `<div>`
-			3. Check relevance of html comments above tables
-			4. If needed, recurse back up the parent tree until `<hx>` tag and 
-				evaluate relevance (eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
-			5. Keep tables with high enough utility  
-		*  Append a  css selector unique to each table OR unique to this group of tables
-	*  parsing_patterns :
-		*  _idem as input_
-	*  variable_masks : (dic)
-		*  dic keys are found in the children elements of the first `<tr>`
-		*  dic values are looked up in an re table of relevant words (eg. 'Fare' is interpreted as 
-			part of 'price' lexical field
-	*  ext_data_selector :
-		*  if 'price is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
-				`<input>` or `<select>` (i.e. a search form)	
-	*  ext_data_masks : 
-		*  _(None)_
-*  Pattern 3 :Table-ception (a table within a table)
-	*  `<table id= table_id>`
-	*  `<tbody> `
-		*  `<tr>`
-			*  `<td>Fare</th>`#Variable1
-			*  `<td>Service</th>`#Variable2
-			*  `...`
-		*  `</tr>`
-		*  `<tr>`
-			*  `<td>`
-				*  `<table>`
-					*  `<tbody>`
-						*  `<tr>`...`</tr>`#Trip 1
-						*  `<tr>`...`</tr>`#Trip 2
-						*  `<tr>`...`</tr>`
-						*  `<tr>`...`</tr>`
-					*  `</tbody>`
-			* `</td>`
-		*  `</tr>`
-	*  `</tbody>`
-	*  _(Similar to Pattern1)_ 
-	*  navigation Log: _idem as input_
-	*  table_selectors :
-		*  _idem as Pattern 2_
-	*  parsing_patterns:
-		*  self.__name_
-	*  variable_masks: (dic)
-		*  dic Keys are found in the preceding sibling of the row (`<tr>`) holding leaf tables
-		*  dic Values are the result of a lookup of the keys in an re table of relevant words 
-			(eg. 'Fare' is interpretted as 'price')		
-	*  ext_data_selector :
-		*  if 'price' is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
-				`<input>` or `<select>` (i.e. a search form)	
-	*  ext_data_masks:
-		*  _none_
-*  Pattern 4 :Table-ception 2 (a table within a table)
-	*  `<table id= table_id>`
-	*  `<tbody> `
-		*  `<tr>`
-			*  `<td>...</td>`#Contains table 1
-			*  `<td>...</td>`#Contains two elements (variable, value)
-			*  `<td>...</td>`#Contains table 2
-		
-	*  `</tbody>`
-	*  _(Similar to Pattern1)_ 
-	*  navigation Log: 
-		*  _idem as input_
-	*  table_selectors :
-		*  Select all tables using css selectors
-	*  parsing_patterns:
-		*  _idem as input_
-	*  variable_masks: (dic)
-		*  Get table X 's variable mask's keys the same way as pattern1 or pattern2
-		*  Get the singleton's variable mask by interpreting the first `<td>` as a dic key
-		*  Dic values are the result of a lookup of the keys in an re table of relevant words 
-			(eg. 'Fare' is interpretted as 'price')
-	*  ext_data_selector :
-		*  if 'price' is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
-				`<input>` or `<select>` (i.e. a search form)	
-	*  ext_data_masks:
-		*  _none_
-*  Pattern 5 : `<ul>` table : implied headers i.e. Headers not stated anywhere on the page
-	*  navigation Log: 
-		*  _idem as input_
-	*  table_selectors :
-		*  Append a distinct css selector for each `<ul>` in the page
-		*  _(alternate)_ Discard outlier `<ul>` right off the bat (via NLP)
-			1. Check relevance of `<ul>`
-			2. Check relevance of parent `<div>`
-			3. Check relevance of html comments above elements
-			4. If needed, recurse back up the parent tree until `<hx>` tag and evaluate relevance 
-				(eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
-			5. Keep tables with high enough utility  
-	*  parsing_patterns:
-		*  _idem as input_
-	*  variable_masks: (dic)
-		*  Keys == Value
-		*  Values are infered from the data found in the table (using NLPand re)
-			*  eg. Script should understand that anything with '$' is a 'price'
-			*  eg. Use NLP library to identify 'Mexico' as an 'origin' or a 'destination'
-	*  ext_data_selector :
-		*  if 'price is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` 
-				that contains `<input>` or `<select>` (i.e. a search form)	
-	*  ext_data_masks:
-		*  _none_
-*  Pattern 6 : `<ul>` table :vertical headers 
-	*  i.e. Each `<li>` contains both the variable and the value within the same string
-	*  eg. 
-		*  `<li> <p>Journey :Bolton/Horwich, Horwich Parkway Train Station to London, 
-			Victoria Coach Station </p></li>`
-		*  `<li> <p>Date : Saturday, 25 May 2013</p></li>`
-		*  etc...
-	*  navigation Log: _idem as input_
-	*  table_selectors :
-		*  Append a distinct css selector for each `<ul>` in the page
-		*  _(alternate)_ Discard outlier `<ul>` right off the bat (via NLP)
-			1. Check relevance of `<ul>`
-			2. Check relevance of parent `<div>`
-			3. Check relevance of html comments above elements
-			4. If needed, recurse back up the parent tree until `<hx>` tag and evaluate 
-				relevance (eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
-			5. Keep tables with high enough utility  
-	*  parsing_patterns:
-		*  self.__name_
-	*  variable_masks: (dic)
-		*  Keys are the strings coming before the delimiter on each row. Delimiter could be {':','-','|',etc.}
-		*  Values are the result of a lookup of the keys in an re table of relevant words 
-			(eg. 'Fare' is interpretted as 'price')		
-	*  ext_data_selector :
-		*  if 'price is not in variable_mask
-			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
-				`<input>` or `<select>` (i.e. a search form)	
-	*  ext_data_masks:
-		*  _none_
-*  Pattern 7-11 : Pattern 1 to 5 with a vertical headers
-	*  Each `<tr>` of a table contains `<td> variable</td><td>value</td>`
-	*  Same as Pattern 1 to 5 except:
-		*  variable_masks:  (dic)
-			*  Keys are found every second `<td>`
-			*  Values are the result of a lookup of the keys in an re table of relevant words 
-				(eg. 'Fare' is interpretted as 'price')		
-*  Pattern 12-16 : Patterns 1 to 5 with implicit headers
-	*  Each 'table' has no explicit header mentioned on the page (i.e. 'origin', 'destination', etc.)
-	*  variable_masks' keys and values must be infered:
-		1.  Generate all possible variable{origin, destination, price, depart date, etc.} 
-			permutations with respect to the columns **OR**
-		2.  Use NLP/re on data to infer the implicit variables that defines them
-
-
+	"""	
+	
 **Part2 : Convert pattern-based settings into parsed tables**
 
+	"""
 	Method signature:  def run()
 	
 	Goal  : Extract data from the schedule timetable according given parsing_patterns
@@ -513,7 +316,7 @@ use on target pafe
 			navigationLog : updated naviagation log with url and request needed to get here.
 			parsing_pattern : States the pattern used to produce these outputs
 			parsed_tables	: List of all ParsedTable objects in the page. Each objects contains:
-				trips		: list of trips parsed in a ParsedTable. Each trip contains: 
+				trips	: list of trips parsed in a ParsedTable. Each trip contains: 
 				(variable: value,)
 							{
 							oneWay/return:,
@@ -527,8 +330,9 @@ use on target pafe
 							price:,
 							}
 
-	
-*  Pattern1 : Classic table w/ horizontal headers 
+	"""
+
+*  Pattern 1 : Classic table w/ horizontal headers 
 	*  `<table id= table_id>`
 		*  `<thead> `
 			*  `<tr>`
@@ -538,10 +342,10 @@ use on target pafe
 			*  `</tr>`
 		*  `</thead>`
 		*  `<tbody>`
-			*  `<tr> </tr>` # Trip1
-			*  `<tr> </tr>` # Trip2
+			*  `<tr> </tr>` # Trip 1
+			*  `<tr> </tr>` # Trip 2
 			*  `...`
-			*  `<tr>` #TripN
+			*  `<tr>` #Trip n
 				*  `<td>50$<td>`#value1
 				*  `<td>GX40<td>`#value2
 				*  ...
@@ -550,18 +354,73 @@ use on target pafe
 			*  `<tr></tr>`
 		*  `</tbody>`
 	*  `</table>`
+
+	def init()
+	
+	*  navigation log : 
+		*  _idem as input_
+	*  table_selectors: 
+		1.  Pick tables with `<thead>` and/or `<th>` in it
+		2.  Append a css selector unique to each table OR unique to this group of table
+	*  parsing_patterns :
+		*  _idem as input_
+	*  variable_masks : (dic)
+		*  dic keys are found in `<th>`'s
+		*  dic values are reverse looked up in a lexical domain re table  
+			*  eg. 'Fare' is interpreted as part of 'price' lexical field
+	*  ext_data_selector :
+		*  if 'price' is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
+			   `<input>` or `<select>` (i.e. a search form)
+	*  ext_data_masks : 
+		*  _(None)_
+	
+	def run()
+
 	*  Access tables pointed by table_selectors
 	*  Variables are looked up in variable_mask ' values field to interpret the information to 
 		come (e.g. variable_mask['Fare']= price --> price column)
 	*  Each `<tr>` of `<tbody>` is a different trip 
 	*  Values in a row are recorded following the same order as the one found in variable_mask 
 		(eg. '50$' is TripN's value for Variable1(i.e. price)) 
+	
 *  Pattern 2 : 'Headerless' horizontal table (aka the Communist)
 	*  _(Similar to Pattern 1)_
-	*  The table has no `<theader>` or `<th>`
+	*  No `<thead>` or `<th>` 
+	
+	def init()
+
+	*  navigation log : 
+		*  _idem as input_
+	*  table_selectors: 
+		*  Get all tables
+		*  _(alternate)_ Discard invalid tables right off the bat (via NLP)
+			1. Check relevance of table
+			2. Check relevance of parent `<div>`
+			3. Check relevance of html comments above tables
+			4. If needed, recurse back up the parent tree until `<hx>` tag and 
+				evaluate relevance (eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
+			5. Keep tables with high enough utility  
+		*  Append a  css selector unique to each table OR unique to this group of tables
+	*  parsing_patterns :
+		*  _idem as input_
+	*  variable_masks : (dic)
+		*  dic keys are found in the children elements of the first `<tr>`
+		*  dic values are looked up in an re table of relevant words (eg. 'Fare' is interpreted as 
+			part of 'price' lexical field
+	*  ext_data_selector :
+		*  if 'price is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
+				`<input>` or `<select>` (i.e. a search form)	
+	*  ext_data_masks : 
+		*  _(None)_
+	
+	def run()
+
 	*  Simply skip the first `<tr>` and then start parsing each following `<tr>` as in pattern 1
-*  Pattern 3 : Table-ception (a table within a table)
-  	*  `<table id= table_id>`
+
+*  Pattern 3 :Table-ception (a table within a table)
+	*  `<table id= table_id>`
 	*  `<tbody> `
 		*  `<tr>`
 			*  `<td>Fare</th>`#Variable1
@@ -580,43 +439,173 @@ use on target pafe
 			* `</td>`
 		*  `</tr>`
 	*  `</tbody>`
-	*  _(Similar to Pattern1)_
+	*  _(Similar to Pattern1)_ 
+
+	def init()
+
+	*  navigation Log: _idem as input_
+	*  table_selectors :
+		*  _idem as Pattern 2_
+	*  parsing_patterns:
+		*  self.__name_
+	*  variable_masks: (dic)
+		*  dic Keys are found in the preceding sibling of the row (`<tr>`) holding leaf tables
+		*  dic Values are the result of a lookup of the keys in an re table of relevant words 
+			(eg. 'Fare' is interpretted as 'price')		
+	*  ext_data_selector :
+		*  if 'price' is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
+				`<input>` or `<select>` (i.e. a search form)	
+	*  ext_data_masks:
+		*  _none_
+	  
+	def run()
+
 	*  if `<table>` pointed by table_selectors is leaf table(i.e. no children table), discard.
 	*  else, find the leaf `<table>` and parse each `<tr>` as a trip in pattern 1
-*  Pattern 4 Table-ception 2
+
+*  Pattern 4 :Table-ception 2 (a table within a table)
 	*  `<table id= table_id>`
 	*  `<tbody> `
 		*  `<tr>`
 			*  `<td>...</td>`#Contains table 1
-			*  `<td>...</td>`#Contains two elements (variable, value) #singleton
+			*  `<td>...</td>`#Contains two elements (variable, value)
 			*  `<td>...</td>`#Contains table 2
 		
 	*  `</tbody>`
 	*  _(Similar to Pattern1)_ 
+
+	def init()
+
+	*  navigation Log: 
+		*  _idem as input_
+	*  table_selectors :
+		*  Select all tables using css selectors
+	*  parsing_patterns:
+		*  _idem as input_
+	*  variable_masks: (dic)
+		*  Get table X 's variable mask's keys the same way as pattern1 or pattern2
+		*  Get the singleton's variable mask by interpreting the first `<td>` as a dic key
+		*  Dic values are the result of a lookup of the keys in an re table of relevant words 
+			(eg. 'Fare' is interpretted as 'price')
+	*  ext_data_selector :
+		*  if 'price' is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
+				`<input>` or `<select>` (i.e. a search form)	
+	*  ext_data_masks:
+		*  _none_
+	
+	def run()
+
 	*  if `<table>` pointed by table_selectors is leaf table(i.e. no children table), discard.
 	*  else, find the leaf `<table>`'s and parse them as in pattern1 or pattern 2
 	*  The singleton's second `<td>` is a value interpreted according to the singleton's mask
-*  Pattern 5 : `<ul>` table : implied headers
-	*  i.e. Headers not stated anywhere on the page
+
+*  Pattern 5 : `<ul>` table : implied headers i.e. Headers not stated anywhere on the page
+	
+	def init()
+
+	*  navigation Log: 
+		*  _idem as input_
+	*  table_selectors :
+		*  Append a distinct css selector for each `<ul>` in the page
+		*  _(alternate)_ Discard outlier `<ul>` right off the bat (via NLP)
+			1. Check relevance of `<ul>`
+			2. Check relevance of parent `<div>`
+			3. Check relevance of html comments above elements
+			4. If needed, recurse back up the parent tree until `<hx>` tag and evaluate relevance 
+				(eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
+			5. Keep tables with high enough utility  
+	*  parsing_patterns:
+		*  _idem as input_
+	*  variable_masks: (dic)
+		*  Keys == Value
+		*  Values are infered from the data found in the table (using NLPand re)
+			*  eg. Script should understand that anything with '$' is a 'price'
+			*  eg. Use NLP library to identify 'Mexico' as an 'origin' or a 'destination'
+	*  ext_data_selector :
+		*  if 'price is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` 
+				that contains `<input>` or `<select>` (i.e. a search form)	
+	*  ext_data_masks:
+		*  _none_
+	
+	def run()
+
 	*  Variables are obtained from the values in variable_masks
 	*  Each `<li>` is a trip
 	*  Comma seperate content of `<li>` (following the appropriate variable_masks entry)
-	*  Values in a row are recorded following the same order as the one stated in variable_mask 
-*  Pattern 6: `<ul>` table :vertical headers
-	*  i.e. Each `<li>` contains both the variable and the value
+	*  Values in a row are recorded following the same order as the one stated in variable_mask
+*  Pattern 6 : `<ul>` table :vertical headers 
+	*  i.e. Each `<li>` contains both the variable and the value within the same string
+	*  eg. 
+		*  `<li> <p>Journey :Bolton/Horwich, Horwich Parkway Train Station to London, 
+			Victoria Coach Station </p></li>`
+		*  `<li> <p>Date : Saturday, 25 May 2013</p></li>`
+		*  etc...
+	
+	def init()
+
+	*  navigation Log: _idem as input_
+	*  table_selectors :
+		*  Append a distinct css selector for each `<ul>` in the page
+		*  _(alternate)_ Discard outlier `<ul>` right off the bat (via NLP)
+			1. Check relevance of `<ul>`
+			2. Check relevance of parent `<div>`
+			3. Check relevance of html comments above elements
+			4. If needed, recurse back up the parent tree until `<hx>` tag and evaluate 
+				relevance (eg. 'Bus Timetable', 'Confirm', 'Schedule', 'Fares')
+			5. Keep tables with high enough utility  
+	*  parsing_patterns:
+		*  self.__name_
+	*  variable_masks: (dic)
+		*  Keys are the strings coming before the delimiter on each row. Delimiter could be {':','-','|',etc.}
+		*  Values are the result of a lookup of the keys in an re table of relevant words 
+			(eg. 'Fare' is interpretted as 'price')		
+	*  ext_data_selector :
+		*  if 'price is not in variable_mask
+			*  return the css selector of the `<table>`,`<ul>`, `<div>` that contains 
+				`<input>` or `<select>` (i.e. a search form)	
+	*  ext_data_masks:
+		*  _none_
+	
+	def run()
+
 	*  Get the `<ul>` pointed by table_selectors
 	*  Read each <li> under it
 	*  The text fnound after a special character {':','-','|',etc.} is interpreted as data according 
 		to variable_mask
 
-*  Pattern 7-11 : Patterns 1 to 5 with vertical headers (instead of horizontal)
-	*  Each <tr> of a table contains <td> variable</td><td>value</td>
+*  Pattern 7-11 : Pattern 1 to 5 with a vertical headers
+	*  Each `<tr>` of a table contains `<td> variable</td><td>value</td>`
+
+	def init()
+
+	*  Same as Pattern 1 to 5 except:
+		*  variable_masks:  (dic)
+			*  Keys are found every second `<td>`
+			*  Values are the result of a lookup of the keys in an re table of relevant words 
+				(eg. 'Fare' is interpretted as 'price')	
+	
+	def run()
+
 	*  Same as pattern 1 to 5 except:
 		*  trips values are found every second `<td>` in the tables (skipping the first `<td>` since
 			it's a variable)
-*  Pattern 12-15 : Patterns 1 to 4 with implicit headers
-	*  Each 'table' has no explicit headers (i.e. 'origin', 'destination', etc.)
-	*  Same as Patterns 1 to 4
+	
+*  Pattern 12-16 : Patterns 1 to 5 with implicit headers
+	*  Each 'table' has no explicit header mentioned on the page (i.e. 'origin', 'destination', etc.)
+
+	def init()
+
+	*  variable_masks' keys and values must be infered:
+		1.  Generate all possible variable{origin, destination, price, depart date, etc.} 
+			permutations with respect to the columns **OR**
+		2.  Use NLP/re on data to infer the implicit variables that defines them
+	
+	def run()
+
+	*  Same as Patterns 1 to 5	
 
 **Part 3: Utility evaluation** 
 
@@ -679,7 +668,6 @@ Pattern summary
 	spanning many tables)
 
 Interesting information to analyse once the *best* parsed data is chosen:
-*  timeFormat, 			# Give an re (12 or 24 hr)
 *  is_bilateral_price,  	# boolean ,to_fare = from_fare
 *  is_surcharge, 		# boolean total price > to+from trips 
 
