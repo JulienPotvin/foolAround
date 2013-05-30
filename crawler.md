@@ -3,15 +3,16 @@ Crawler_Arch
 
 Type : _search form_
 
-Note1: In the context of this text, a 'relevant' element is one that has an attribute value in the same lexical 
-field as the target eg. When looking for a search form, {'Book now', 'Tickets', 'Price list', 'Search', etc.} 
-is a relevant list of values to look for in a `<table>`'s attributes.
-
-Note2: 'Variable' refers to the element of a trip being studied. Eg. origin, destination, price, etc.
-
-Note3: 'Value' refers to the value a variable can take in a specific trip. eg. Montreal, Toronto, 25$, etc.
-
+_Note1_:In the context of this text, a 'relevant' element is one that has an attribute value in the same lexical 
+field as the target eg. eg. {'Book now', 'Tickets', 'Price list', 'Search', etc.} 
+is a relevant list of values to look for in a `<table>`'s attributes. 
 NLP projects: Apache Stanbol(Java), nltk (python - _not sure_ )
+
+_Note2_:'Variable' refers to the element of a trip being studied. Eg. origin, destination, price, etc.
+
+_Note3_:'Value' refers to the value a variable can take in a specific trip. eg. Montreal, Toronto, 25$, etc.
+
+
 
 Step 1 :Fill input fields of the search tool and submit
 --------------------------------------------------------
@@ -50,7 +51,7 @@ Step 1 :Fill input fields of the search tool and submit
 			travellerClassID:		css selector for the travel calss field in the form
 
 
-Programmer assisted workflow:
+_Programmer assisted workflow_:
 
 *  Input the home_url
 *  Prompt user to navigate to the page of the search from, recording context throughout (default: simple url)
@@ -60,7 +61,7 @@ Programmer assisted workflow:
 *  Prompt user for search field input space(i.e. what set of values could inputed here)
 *  Append to respective output variable lists(xxxxx_list)
 
-Automation version: (_Hints_)
+_Automation version: (Hints)_
 
 *  Navigation log:
 	1.  Get to home page
